@@ -25,8 +25,9 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	Mfield(30)
+	Mfield(Vei2{150,100})
 {
+	
 }
 
 void Game::Go()
@@ -39,9 +40,11 @@ void Game::Go()
 
 void Game::UpdateModel()
 {
+	MousePos = { wnd.mouse.GetPosX(), wnd.mouse.GetPosY() };
+	Mfield.Update(MousePos);
 }
 
 void Game::ComposeFrame()
 {
-	Mfield.Draw(gfx);
+	Mfield.Draw(gfx,MousePos);
 }

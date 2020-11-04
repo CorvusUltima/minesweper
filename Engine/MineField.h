@@ -1,5 +1,10 @@
 #pragma once
 #include"Graphics.h"
+#include"RectI.h"
+#include"Vei2.h"
+#include"Keyboard.h"
+#include"Mouse.h"
+#include<assert.h>
 
 class MineField
 {
@@ -12,35 +17,47 @@ class MineField
 			Flagged,
 			Revealed
 		};
+	
+	public:
 
-		bool HasMine();
-		void SpawnMine();
+		Tile() = default;
+		Tile(Vei2& topleft);
+	 	void DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePos);
+		
 
-		void DrawTile(Vei2& ScreenPosition, Graphics& gfx) const;
 
-	private:
 
+		RectI rect;
+		Mouse mouse;
 		State state = State::Hidden;
-		bool hasMine;
-
+		bool hasMine = false;
+		bool IsPointedAt(Vei2& MousePos);
+		void  Revieal(Vei2& MousePos);
+		
 	};
 
 public:
 
-	MineField(int nMines);
-	void Draw(Graphics& gfx);
-
-private:
+	MineField(Vei2 FieldTopLeft);
+	void Draw(Graphics& gfx,Vei2& MousePos);
+	void Update(Vei2& MousePos);
+	void SpawnMines();
 	
-	Tile& TileAt(const Vei2& gridpos);
+	
+
+	
+	RectI GetRect();
+
 
 private:
 
-	static constexpr int Width = 20;
-	static constexpr int Height = 16;
-	Tile field[ Width * Height];
 
+	static constexpr int width = 8;
+	static constexpr int height = 10;
+	static constexpr int nTilesMax = width * height;
+	int nMines=20;
+	Vei2 FieldTopLeft;
+	Tile tile[nTilesMax];
 
 
 };
-
