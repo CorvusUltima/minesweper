@@ -5,9 +5,10 @@
 #include<random>
 
 MineField::Tile::Tile(Vei2& topleft)
-
+    
+    
 {
-    RectI rect(Vei2{ topleft.x,topleft.y }, SpriteCodex::tileSize, SpriteCodex::tileSize);
+    rect = { {topleft.x,topleft.y} , SpriteCodex::tileSize, SpriteCodex::tileSize };
 
 }
 
@@ -62,23 +63,14 @@ bool MineField::Tile::IsPointedAt(Vei2&MousePos)
     return(MousePos.x>rect.left&& MousePos.x<rect.right&& MousePos.y>rect.top&& MousePos.y<rect.bottom) ;
 } 
 
-void MineField::Tile::Revieal(Vei2& MousePos )
-{
-    
-    if (IsPointedAt(MousePos)&& mouse.LeftIsPressed()&&state==State::Hidden)
-    {
-        
-        state = State::Revealed;
-        
-    }
-}
 
 
 
-MineField::MineField(Vei2 FieldTopLeft)
+MineField::MineField(Vei2 FieldTopLeft,Mouse& mouse)
     :
-    FieldTopLeft(FieldTopLeft)
-
+    FieldTopLeft(FieldTopLeft),
+    mouse(mouse)
+   
 {
   
 
@@ -109,7 +101,7 @@ void MineField::Update(Vei2& MousePos)
     for (int i = 0; i < nTilesMax; i++)
     {
 
-        tile[i].Revieal(MousePos);
+      Revieal(MousePos);
     }
 }
 
@@ -141,6 +133,25 @@ void MineField::SpawnMines()
 
 
 
+
+}
+
+void MineField::Revieal(Vei2& MousePos)
+{
+ 
+    for (int i = 0; i < nTilesMax; i++)
+    {
+        if (tile[i].IsPointedAt(MousePos) && mouse.LeftIsPressed() && tile[i].state == Tile::State::Hidden)
+        {
+
+            tile[i].state = Tile::State::Revealed;
+
+        }
+
+   }
+
+    
+   
 
 }
 

@@ -25,7 +25,7 @@ Game::Game( MainWindow& wnd )
 	:
 	wnd( wnd ),
 	gfx( wnd ),
-	Mfield(Vei2{150,100})
+	Mfield(Vei2{150,100},mouse)
 {
 	
 }

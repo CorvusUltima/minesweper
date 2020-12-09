@@ -28,21 +28,20 @@ class MineField
 
 
 		RectI rect;
-		Mouse mouse;
 		State state = State::Hidden;
 		bool hasMine = false;
 		bool IsPointedAt(Vei2& MousePos);
-		void  Revieal(Vei2& MousePos);
+	
 		
 	};
 
 public:
 
-	MineField(Vei2 FieldTopLeft);
+	MineField(Vei2 FieldTopLeft,Mouse& mouse);
 	void Draw(Graphics& gfx,Vei2& MousePos);
 	void Update(Vei2& MousePos);
 	void SpawnMines();
-	
+	void  Revieal(Vei2& MousePos);
 	
 
 	
@@ -58,6 +57,7 @@ private:
 	int nMines=20;
 	Vei2 FieldTopLeft;
 	Tile tile[nTilesMax];
+	Mouse& mouse;
 
 
 };
