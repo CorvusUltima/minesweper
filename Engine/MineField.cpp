@@ -16,7 +16,7 @@ MineField::Tile::Tile(Vei2& topleft)
 
 
 
-void MineField::Tile::DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePos)
+void MineField::Tile::DrawTile(Vei2& topleft, Graphics& gfx,Vei2& MousePos)
 {
 
    
@@ -24,17 +24,17 @@ void MineField::Tile::DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePo
     {
     case State::Hidden:
     {
-        SpriteCodex::DrawTileButton(ScreenPosition, gfx);
+        SpriteCodex::DrawTileButton(topleft, gfx);
         if (IsPointedAt(MousePos))
         {
-            SpriteCodex::DrawTileBomb(ScreenPosition, gfx);
+            SpriteCodex::DrawTileBomb(topleft, gfx);
         }
     }
     break;
     case State::Flagged:
     {
-        SpriteCodex::DrawTileButton(ScreenPosition, gfx);
-        SpriteCodex::DrawTileFlag(ScreenPosition, gfx);
+        SpriteCodex::DrawTileButton(topleft, gfx);
+        SpriteCodex::DrawTileFlag(topleft, gfx);
     }
     break;
 
@@ -42,11 +42,11 @@ void MineField::Tile::DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePo
     {
         if (!hasMine)
         {
-            SpriteCodex::DrawTile0(ScreenPosition, gfx);
+            SpriteCodex::DrawTile0(topleft, gfx);
         }
         else
         {
-            SpriteCodex::DrawTileBomb(ScreenPosition, gfx);
+            SpriteCodex::DrawTileBomb(topleft, gfx);
         }
     }
     
@@ -57,11 +57,20 @@ void MineField::Tile::DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePo
 
 bool MineField::Tile::IsPointedAt(Vei2&MousePos)
 {
-    //MousePos.x = mouse.GetPosX();
-   // MousePos.y = mouse.GetPosY();
-   
     return(MousePos.x>rect.left&& MousePos.x<rect.right&& MousePos.y>rect.top&& MousePos.y<rect.bottom) ;
-} 
+}
+void MineField::Tile::Revieal(Vei2& MousePos)
+{
+    
+        if (IsPointedAt(MousePos) && state == Tile::State::Hidden)
+        {
+
+          state = Tile::State::Revealed;
+
+       }
+
+}
+
 
 
 
@@ -72,9 +81,16 @@ MineField::MineField(Vei2 FieldTopLeft,Mouse& mouse)
     mouse(mouse)
    
 {
-  
 
-    tile[0] = { FieldTopLeft };
+    for (int i = 0; i < height; i++)
+    {
+        for (int j = 0; j < width; j++)
+        {
+            tile[i * width + j] = { Vei2(FieldTopLeft.x + SpriteCodex::tileSize * j, FieldTopLeft.y + SpriteCodex::tileSize * i)};
+        }
+       
+    }
+    
 
     SpawnMines();
   
@@ -90,7 +106,7 @@ void MineField::Draw(Graphics& gfx,Vei2& MousePos)
     {
         for (int j=0;j<width;j++)
         {
-            tile[i].DrawTile(Vei2{ FieldTopLeft.x + SpriteCodex::tileSize * j,FieldTopLeft.y + SpriteCodex::tileSize * i }, gfx,MousePos);
+            tile[i*width+j].DrawTile(Vei2( FieldTopLeft.x + SpriteCodex::tileSize * j,FieldTopLeft.y + SpriteCodex::tileSize * i ), gfx,MousePos);
         }
     }
   
@@ -100,8 +116,9 @@ void MineField::Update(Vei2& MousePos)
 {
     for (int i = 0; i < nTilesMax; i++)
     {
-
-      Revieal(MousePos);
+      tile[i].IsPointedAt(MousePos);
+      tile[i].Revieal(MousePos);
+    
     }
 }
 
@@ -136,24 +153,6 @@ void MineField::SpawnMines()
 
 }
 
-void MineField::Revieal(Vei2& MousePos)
-{
- 
-    for (int i = 0; i < nTilesMax; i++)
-    {
-        if (tile[i].IsPointedAt(MousePos) && mouse.LeftIsPressed() && tile[i].state == Tile::State::Hidden)
-        {
-
-            tile[i].state = Tile::State::Revealed;
-
-        }
-
-   }
-
-    
-   
-
-}
 
 
 

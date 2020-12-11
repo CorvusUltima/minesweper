@@ -22,15 +22,13 @@ class MineField
 
 		Tile() = default;
 		Tile(Vei2& topleft);
-	 	void DrawTile(Vei2& ScreenPosition, Graphics& gfx,Vei2& MousePos);
+	 	void DrawTile(Vei2& topleft, Graphics& gfx,Vei2& MousePos);
 		
-
-
-
 		RectI rect;
 		State state = State::Hidden;
 		bool hasMine = false;
 		bool IsPointedAt(Vei2& MousePos);
+		void Revieal(Vei2& MousePos);
 	
 		
 	};
