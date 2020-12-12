@@ -6,6 +6,7 @@
 #include"Mouse.h"
 #include<assert.h>
 
+
 class MineField
 {
 	class Tile
@@ -22,14 +23,16 @@ class MineField
 
 		Tile() = default;
 		Tile(Vei2& topleft);
-	 	void DrawTile(Vei2& topleft, Graphics& gfx,Vei2& MousePos);
+	 	void DrawTile(Graphics& gfx,Vei2& MousePos);
 		
 		RectI rect;
 		State state = State::Hidden;
 		bool hasMine = false;
 		bool IsPointedAt(Vei2& MousePos);
 		void Revieal(Vei2& MousePos);
-	
+		Vei2 topleft;
+		int MineCounter = 0;
+		
 		
 	};
 
@@ -39,7 +42,7 @@ public:
 	void Draw(Graphics& gfx,Vei2& MousePos);
 	void Update(Vei2& MousePos);
 	void SpawnMines();
-	void  Revieal(Vei2& MousePos);
+	void Revieal(Vei2& MousePos);
 	
 
 	

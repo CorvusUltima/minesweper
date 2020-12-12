@@ -43,7 +43,6 @@ private:
 	MainWindow& wnd;
 	Graphics gfx;
 	MineField Mfield;
-	Mouse mouse;
 	Vei2 MousePos;
 	/********************************/
 	/*  User Variables              */
