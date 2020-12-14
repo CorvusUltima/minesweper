@@ -66,6 +66,9 @@
     <ClInclude Include="RectI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="img.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DXErr.cpp">
@@ -102,6 +105,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="MineField.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="img.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,6 +5,7 @@
 #include"Keyboard.h"
 #include"Mouse.h"
 #include<assert.h>
+#include"img.h"
 
 
 class MineField
@@ -28,8 +29,10 @@ class MineField
 		RectI rect;
 		State state = State::Hidden;
 		bool hasMine = false;
+		bool isFlaged = false;
 		bool IsPointedAt(Vei2& MousePos);
 		void Revieal(Vei2& MousePos);
+		void Flag(Vei2& MousePos);
 		Vei2 topleft;
 		int MineCounter = 0;
 		
@@ -42,9 +45,12 @@ public:
 	void Draw(Graphics& gfx,Vei2& MousePos);
 	void Update(Vei2& MousePos);
 	void SpawnMines();
-	void Revieal(Vei2& MousePos);
-	
-
+	int  GetIndex(int x, int y);
+	bool CheckMines(int x, int y);
+	bool Victory = false;
+	bool CheckAllTiles();
+	void WinCondition();
+	void WinDraw(int x, int y, Graphics& gfx);
 	
 	RectI GetRect();
 
@@ -52,10 +58,10 @@ public:
 private:
 
 
-	static constexpr int width = 8;
-	static constexpr int height = 10;
+	static constexpr int width = 5;
+	static constexpr int height = 1;
 	static constexpr int nTilesMax = width * height;
-	int nMines=20;
+	int nMines=1;
 	Vei2 FieldTopLeft;
 	Tile tile[nTilesMax];
 	Mouse& mouse;

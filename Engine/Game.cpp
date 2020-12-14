@@ -47,4 +47,6 @@ void Game::UpdateModel()
 void Game::ComposeFrame()
 {
 	Mfield.Draw(gfx,MousePos);
+	Mfield.WinCondition();
+	Mfield.WinDraw(100,100,gfx);
 }
